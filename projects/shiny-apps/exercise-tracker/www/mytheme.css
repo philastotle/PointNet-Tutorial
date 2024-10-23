@@ -1,0 +1,108 @@
+/*============================================================================*/
+
+/* logo */
+.skin-blue .main-header .logo {
+              background-color: #002664;
+              height: 50px;
+              }
+
+/* logo when hovered */
+.skin-blue .main-header .logo:hover {
+              background-color: #002664;
+              }
+
+/* navbar (rest of the header) */
+.skin-blue .main-header .navbar {
+              background-color: #002664;
+              }
+/* body background */
+.content-wrapper, .right-side {
+              background-color: #F2F3F4;
+              padding-left: 5px;
+              padding-right: 5px
+              }
+/* box */
+.panel {
+position: relative;
+border: 1px solid #022664;
+border-radius: 10px;
+padding: 10px;
+margin-bottom: 20px;
+width: 100%;
+box-shadow: 0 3px 3px rgba(0,0,0,.3);
+}
+
+h3 {
+font-family: Segoe UI;
+font-size: 26pt;
+font-weight: bold;
+}
+
+h4 {
+font-family: Segoe UI;
+font-weight: bold;
+color: #022664;
+}
+
+h5 {
+font-family: Segoe UI;
+font-weight: bold;
+font-size: 18pt;
+color: #022664;
+}
+
+h6 {
+font-family: Segoe UI;
+font-weight: bold;
+font-size: 16pt;
+color: #D7153A;
+}
+
+h7 {
+font-family: Segoe UI;
+font-weight: normal;
+font-size: 12pt;
+color: #000;
+}
+
+.btn {
+border-radius: 25px;
+border: none;
+box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.orange-modal .modal-content {
+background-color: orange;
+}
+    
+.modal-dialog {
+width: 95vw !important;
+height: 95vh !important;
+}
+
+.dataTable {
+  font-size: 0.9em !important;
+}
+
+.nowrap {
+  white-space: nowrap;
+}"
+
+.small-box {
+  border-radius: 15px;
+  position: relative;
+  display: block;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.1);
+}
+/*============================================================================*/
+
+/* Style for the modal overlay */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5); /* Background color with some transparency */
+}
+
+/* Style for the modal content */
+.modal-content {
+  background-color: #FFFFFF; /* Background color of the modal content */
+}
