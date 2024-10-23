@@ -1,0 +1,43 @@
+# NOTE: This dockerfile is for running the grants pipeline directly, not for development.
+# For development, use the Dockerfile in the jupyter or vscode Docker folder.
+
+# Use the official Python image as the base image
+FROM python:3.11-slim
+
+# Set environment variables
+ENV UID_CONNECT=ci_data_assets \
+    PWD_CONNECT=password
+
+# Switch to root user to install packages (Already root in official Python image)
+# Install system dependencies and SQL Server ODBC drivers
+RUN apt-get update \
+ && apt-get install --yes --no-install-recommends \
+        apt-transport-https \
+        curl \
+        gnupg \
+        unixodbc-dev \
+        cifs-utils \
+ && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+ && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+ && apt-get update \
+ && ACCEPT_EULA=Y apt-get install --yes --no-install-recommends msodbcsql17 \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* /tmp/*
+
+# Install additional Python packages
+RUN pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org \
+    pandas \
+    sqlalchemy \
+    pyodbc
+
+# set main directory
+WORKDIR /app
+
+# copy folder to working directory
+COPY . .
+
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Run the application
+CMD ["python", "main.py"]

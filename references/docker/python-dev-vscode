@@ -1,0 +1,63 @@
+# Data Engineering Docker Container for Python development.
+
+# Use linuxserver/code-server image for VS Code in-browser
+FROM linuxserver/code-server:4.91.1
+
+# Switch to root user to install packages
+USER root
+
+# Install system dependencies and SQL Server ODBC drivers
+RUN apt-get update \
+ && apt-get install --yes --no-install-recommends \
+	python3 \
+	python3-pip \
+	apt-transport-https \
+	curl \
+	gnupg \
+	unixodbc-dev \
+	cifs-utils \
+ && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+ && curl https://packages.microsoft.com/config/debian/9/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+ && apt-get update \
+ && ACCEPT_EULA=Y apt-get install --yes --no-install-recommends msodbcsql17 \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* /tmp/*
+
+# Install additional Python packages
+# (ideally uses requirements.txt, but couldn't get it to work)
+RUN pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org \
+	chardet==5.1.0 \
+	numpy==1.25.2 \
+	pandas==1.5.3 \
+	pymssql==2.2.7 \
+	python_dateutil==2.8.2 \
+	SQLAlchemy==2.0.19 \
+	pyodbc==4.0.35 \
+	urllib3==1.26.15 \
+	openpyxl==3.0.10 \
+	pytz==2023.3
+	
+
+# Expose port
+EXPOSE 8443
+
+
+# Tips for building container
+# Container Name (make it meaningful)
+# e.g. grants_base_data_dev
+#-------------------------------
+# Ports (Host port : Container port)
+# Use host port range between 10000-20000 (rstudio typically uses 8787 as container port, python jupyter uses 8888)
+# e.g. 10000
+#-------------------------------
+# Volumes (Host path : Container path):
+# e.g. C:/Users/60260504/Documents/Repositories:/home/rstudio <- rstudio
+# e.g. C:/Users/60260504/Documents/Repositories:/home/jovyan  <- python jupyter
+#----------------------------------------
+# Environment Variables (Variable : Value):
+# e.g. for R and rstudio
+# USER=user
+# PASSWORD=password
+# UID_CONNECT, ci_data_assets
+# PWD_CONNECT, <password>
+# ENV, DEV OR UAT OR PRD
